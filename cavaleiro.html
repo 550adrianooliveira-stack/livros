@@ -1,219 +1,123 @@
 <!DOCTYPE html>
 <html lang="pt">
 <head>
-
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-
 <title>O Cavaleiro da Dinamarca</title>
 
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/turn.js/4.1.0/turn.min.js"></script>
 
 <style>
-
 body{
-margin:0;
-background:#2b2b2b;
-font-family:serif;
-display:flex;
-flex-direction:column;
-align-items:center;
-height:100vh;
+  margin:0;
+  background:#2c2c2c;
+  display:flex;
+  flex-direction:column;
+  align-items:center;
+  justify-content:center;
+  height:100vh;
+  font-family:serif;
 }
 
 #flipbook{
-width:900px;
-height:600px;
-margin-top:30px;
+  width:900px;
+  height:600px;
 }
 
 .page{
-background:white;
+  background:white;
 }
 
 .page img{
-width:100%;
-height:100%;
-object-fit:contain;
+  width:100%;
+  height:100%;
+  object-fit:contain;
 }
 
-.botoes{
-position:fixed;
-top:10px;
-right:10px;
-display:flex;
-gap:10px;
+.barra{
+  position:fixed;
+  top:10px;
+  left:10px;
+  display:flex;
+  gap:10px;
 }
 
 button{
-padding:8px 15px;
-border:none;
-border-radius:8px;
-cursor:pointer;
+  padding:8px 15px;
+  border:none;
+  border-radius:8px;
+  cursor:pointer;
 }
-
-#thumbnails{
-
-position:fixed;
-bottom:0;
-left:0;
-width:100%;
-height:110px;
-background:#111;
-display:flex;
-overflow-x:auto;
-padding:10px;
-gap:10px;
-
-}
-
-.thumb{
-
-height:90px;
-cursor:pointer;
-border:2px solid transparent;
-
-}
-
-.thumb:hover{
-border-color:white;
-}
-
 </style>
-
 </head>
 
 <body>
 
-<div class="botoes">
-
-<button onclick="location.href='index.html'">
-📚 Biblioteca
-</button>
-
-<button onclick="fullscreen()">
-⛶ Fullscreen
-</button>
-
+<div class="barra">
+  <button onclick="location.href='index.html'">📚 Biblioteca</button>
+  <button onclick="fullscreen()">⛶ Fullscreen</button>
 </div>
 
 <audio id="musica" loop>
-<source src="musica-cavaleiro.mp3">
+  <source src="musica-cavaleiro.mp3" type="audio/mpeg">
 </audio>
 
 <audio id="somvirar">
-<source src="virar.mp3">
+  <source src="virar.mp3" type="audio/mpeg">
 </audio>
 
-<div id="flipbook">
-
-<div class="page">
-<h2 style="text-align:center;padding-top:200px">
-O Cavaleiro da Dinamarca
-</h2>
-</div>
-
-    <div class="page"><img src="images/cavaleiro/Imagem1.png"></div>
-    <div class="page"><img src="images/cavaleiro/Imagem2.png"></div>
-    <div class="page"><img src="images/cavaleiro/Imagem3.png"></div>
-    <div class="page"><img src="images/cavaleiro/Imagem4.png"></div>
-    <div class="page"><img src="images/cavaleiro/Imagem5.png"></div>
-    <div class="page"><img src="images/cavaleiro/Imagem6.png"></div>
-    <div class="page"><img src="images/cavaleiro/Imagem7.png"></div>
-    <div class="page"><img src="images/cavaleiro/Imagem8.png"></div>
-    <div class="page"><img src="images/cavaleiro/Imagem9.png"></div>
-    <div class="page"><img src="images/cavaleiro/Imagem10.png"></div>
-    <div class="page"><img src="images/cavaleiro/Imagem11jpg"></div>
-    <div class="page"><img src="images/cavaleiro/Imagem12jpg"></div>
-    <div class="page"><img src="images/cavaleiro/Imagem13jpg"></div>
-    <div class="page"><img src="images/cavaleiro/Imagem14jpg"></div>
-    <div class="page"><img src="images/cavaleiro/Imagem15jpg"></div>
-    <div class="page"><img src="images/cavaleiro/Imagem16jpg"></div>
-    <div class="page"><img src="images/cavaleiro/Imagem17jpg"></div>
-<div class="page">
-<h2 style="text-align:center;padding-top:200px">
-Créditos
-</h2>
-
-<p style="text-align:center">
-Ilustrações do 7º ano
-</p>
-
-</div>
-
-</div>
-
-<div id="thumbnails">
-
-<img class="thumb" src="images/cavaleiro/Imagem1.png" onclick="irPagina(2)">
-<img class="thumb" src="images/cavaleiro/Imagem2.png" onclick="irPagina(3)">
-<img class="thumb" src="images/cavaleiro/Imagem3.png" onclick="irPagina(4)">
-<img class="thumb" src="images/cavaleiro/Imagem4.png" onclick="irPagina(5)">
-<img class="thumb" src="images/cavaleiro/Imagem5.png" onclick="irPagina(6)">
-<img class="thumb" src="images/cavaleiro/Imagem6.png" onclick="irPagina(7)">
-<img class="thumb" src="images/cavaleiro/Imagem7.png" onclick="irPagina(8)">
-<img class="thumb" src="images/cavaleiro/Imagem8.png" onclick="irPagina(9)">
-<img class="thumb" src="images/cavaleiro/Imagem9.png" onclick="irPagina(10)">
-<img class="thumb" src="images/cavaleiro/Imagem10.png" onclick="irPagina(11)">
-<img class="thumb" src="images/cavaleiro/Imagem11.png" onclick="irPagina(12)">
-<img class="thumb" src="images/cavaleiro/Imagem12.png" onclick="irPagina(13)">
-<img class="thumb" src="images/cavaleiro/Imagem13.png" onclick="irPagina(14)">
-<img class="thumb" src="images/cavaleiro/Imagem14.png" onclick="irPagina(15)">
-<img class="thumb" src="images/cavaleiro/Imagem15.png" onclick="irPagina(16)">
-<img class="thumb" src="images/cavaleiro/Imagem16.png" onclick="irPagina(17)">
-<img class="thumb" src="images/cavaleiro/Imagem17.png" onclick="irPagina(18)">
-</div>
+<div id="flipbook"></div>
 
 <script>
+const total = 17;
+const pasta = "images/cavaleiro/";
+const flipbook = document.getElementById("flipbook");
 
+// 1️⃣ Criar todas as páginas primeiro
+
+// Capa
+flipbook.innerHTML += `<div class="page"><h2 style="text-align:center;padding-top:200px">O Cavaleiro da Dinamarca</h2></div>`;
+
+// Páginas das imagens
+for(let i=1; i<=total; i++){
+  flipbook.innerHTML += `<div class="page"><img src="${pasta}Imagem${i}.jpg"></div>`;
+}
+
+// Créditos
+flipbook.innerHTML += `<div class="page"><h2 style="text-align:center;padding-top:200px">Créditos</h2><p style="text-align:center">Ilustrações do 7º ano</p></div>`;
+
+// 2️⃣ Agora inicializar o flipbook
 $("#flipbook").turn({
+  width:900,
+  height:600,
+  autoCenter:true,
+  display:"double",
+  gradients:true,
+  elevation:50,
+  when:{
+    turning:function(){
+      document.getElementById("somvirar").play();
+    }
+  }
+});
 
-width:900,
-height:600,
-autoCenter:true,
-display:"double",
-gradients:true,
-elevation:50,
-
-when:{
-turning:function(){
-document.getElementById("somvirar").play()
-}
-}
-
-})
-
+// 3️⃣ Música de fundo
 document.body.addEventListener("click",()=>{
-document.getElementById("musica").play()
-},{once:true})
+  document.getElementById("musica").play();
+},{once:true});
 
+// 4️⃣ Fullscreen
 function fullscreen(){
-
-document.documentElement.requestFullscreen()
-
+  document.documentElement.requestFullscreen();
 }
 
-function irPagina(p){
-
-$("#flipbook").turn("page",p)
-
-}
-
-document.addEventListener("keydown",function(e){
-
-if(e.key==="ArrowRight"){
-$("#flipbook").turn("next")
-}
-
-if(e.key==="ArrowLeft"){
-$("#flipbook").turn("previous")
-}
-
-})
-
+// 5️⃣ Setas do teclado
+document.addEventListener("keydown", function(e){
+  if(e.key==="ArrowRight") $("#flipbook").turn("next");
+  if(e.key==="ArrowLeft")  $("#flipbook").turn("previous");
+});
 </script>
 
 </body>
-
 </html>
