@@ -5,139 +5,194 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>O Cavaleiro da Dinamarca</title>
 
-<!-- jQuery 2.x compatível -->
 <script src="js/jquery-2.2.4.min.js"></script>
-<!-- Turn.js local -->
 <script src="js/turn.min.js"></script>
 
 <style>
+
 body{
   margin:0;
-  background:#2c2c2c;
+  background:linear-gradient(#2b2b2b,#1a1a1a);
   display:flex;
-  flex-direction:column;
-  align-items:center;
   justify-content:center;
+  align-items:center;
   height:100vh;
   font-family:serif;
 }
+
+/* LIVRO */
+
 #flipbook{
-  width:900px;
-  height:600px;
+  width:920px;
+  height:620px;
 }
+
+/* PÁGINAS */
+
 .page{
   background:white;
+  box-shadow:0 0 20px rgba(0,0,0,0.5);
 }
+
 .page img{
   width:100%;
   height:100%;
   object-fit:contain;
 }
+
+/* CAPA */
+
+.capa{
+  background:linear-gradient(#5a0f0f,#2e0505);
+  color:white;
+  font-size:28px;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  text-align:center;
+  padding:40px;
+}
+
+/* CRÉDITOS */
+
+.creditos{
+  display:flex;
+  flex-direction:column;
+  align-items:center;
+  justify-content:center;
+  font-size:22px;
+}
+
+/* BOTÕES */
+
 .barra{
   position:fixed;
-  top:10px;
-  left:10px;
+  top:15px;
+  left:15px;
   display:flex;
   gap:10px;
 }
+
 button{
-  padding:8px 15px;
+  padding:8px 14px;
   border:none;
-  border-radius:8px;
+  border-radius:6px;
+  background:#ffffff;
   cursor:pointer;
+  font-weight:bold;
 }
+
+button:hover{
+  background:#e2e2e2;
+}
+
 </style>
 </head>
 
 <body>
 
 <div class="barra">
-  <button onclick="location.href='index.html'">📚 Biblioteca</button>
-  <button onclick="fullscreen()">⛶ Fullscreen</button>
+<button onclick="location.href='index.html'">📚 Biblioteca</button>
+<button onclick="fullscreen()">⛶ Fullscreen</button>
 </div>
 
 <audio id="musica" loop>
-  <source src="musica-cavaleiro.mp3" type="audio/mpeg">
+<source src="musica-cavaleiro.mp3" type="audio/mpeg">
 </audio>
 
 <audio id="somvirar">
-  <source src="virar.mp3" type="audio/mpeg">
+<source src="virar.mp3" type="audio/mpeg">
 </audio>
 
 <div id="flipbook"></div>
 
 <script>
-// -------- CONFIGURAÇÃO --------
-const total = 17; // número de imagens
+
+const total = 17;
 const pasta = "images/cavaleiro/";
 const flipbook = document.getElementById("flipbook");
 
-// -------- CRIAR PÁGINAS ANTES DE INICIALIZAR --------
+/* CAPA */
 
-// Capa
 let capa = document.createElement("div");
-capa.className = "page";
-capa.innerHTML = `<h2 style="text-align:center;padding-top:200px">O Cavaleiro da Dinamarca</h2>`;
+capa.className = "page capa";
+capa.innerHTML = "O Cavaleiro da Dinamarca";
 flipbook.appendChild(capa);
 
-// Página em branco para manter paridade
-let blank = document.createElement("div");
-blank.className = "page";
-flipbook.appendChild(blank);
+/* página branca para paridade */
 
-// Páginas das imagens
+let branco = document.createElement("div");
+branco.className = "page";
+flipbook.appendChild(branco);
+
+/* páginas das imagens */
+
 for(let i=1;i<=total;i++){
-  let p = document.createElement("div");
-  p.className = "page";
-  let img = document.createElement("img");
-  img.src = `${pasta}Imagem${i}.png`;
-  p.appendChild(img);
-  flipbook.appendChild(p);
+
+ let p = document.createElement("div");
+ p.className="page";
+
+ let img = document.createElement("img");
+ img.src = pasta + "Imagem" + i + ".jpg";
+
+ p.appendChild(img);
+ flipbook.appendChild(p);
+
 }
 
-// Créditos
-let credit = document.createElement("div");
-credit.className = "page";
-credit.innerHTML = `<h2 style="text-align:center;padding-top:200px">Créditos</h2>
-<p style="text-align:center">Ilustrações do 7º ano</p>`;
-flipbook.appendChild(credit);
+/* créditos */
 
-// -------- INICIALIZAR TURN.JS --------
+let creditos = document.createElement("div");
+creditos.className="page creditos";
+creditos.innerHTML="Créditos<br>Ilustrações do 7º ano";
+flipbook.appendChild(creditos);
+
+/* iniciar flipbook */
+
 $("#flipbook").turn({
-  width:900,
-  height:600,
-  autoCenter:true,
-  display:"double",
-  gradients:true,
-  elevation:50,
-  when:{
-    turning:function(){
-      const som = document.getElementById("somvirar");
-      som.play().catch(()=>{}); // ignora erro se usuário ainda não interagiu
-    }
+ width:920,
+ height:620,
+ autoCenter:true,
+ display:"double",
+ gradients:true,
+ elevation:80,
+ when:{
+  turning:function(){
+   document.getElementById("somvirar").play().catch(()=>{});
   }
+ }
 });
 
-// -------- MÚSICA DE FUNDO APÓS CLIQUE --------
-let musicaTocando = false;
-document.addEventListener("click", () => {
-  if(!musicaTocando){
-    const musica = document.getElementById("musica");
-    musica.play().catch(()=>{});
-    musicaTocando = true;
-  }
+/* música após clique */
+
+let tocou=false;
+
+document.addEventListener("click",function(){
+
+ if(!tocou){
+
+  document.getElementById("musica").play().catch(()=>{});
+  tocou=true;
+
+ }
+
 },{once:true});
 
-// -------- FULLSCREEN --------
+/* fullscreen */
+
 function fullscreen(){
-  document.documentElement.requestFullscreen();
+ document.documentElement.requestFullscreen();
 }
 
-// -------- SETAS DO TECLADO --------
-document.addEventListener("keydown", function(e){
-  if(e.key==="ArrowRight") $("#flipbook").turn("next");
-  if(e.key==="ArrowLeft")  $("#flipbook").turn("previous");
+/* teclas */
+
+document.addEventListener("keydown",function(e){
+
+ if(e.key==="ArrowRight") $("#flipbook").turn("next");
+ if(e.key==="ArrowLeft") $("#flipbook").turn("previous");
+
 });
+
 </script>
 
 </body>
