@@ -1,97 +1,211 @@
 <!DOCTYPE html>
 <html lang="pt">
+
 <head>
+
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
 <title>O Cavaleiro da Dinamarca</title>
 
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/turn.js/4.1.0/turn.min.js"></script>
+
 <style>
-body {
-  margin:0;
-  background:#111;
-  display:flex;
-  justify-content:center;
-  align-items:center;
-  height:100vh;
-  overflow:hidden;
+
+body{
+margin:0;
+background:#2b2b2b;
+font-family:serif;
+display:flex;
+flex-direction:column;
+align-items:center;
+height:100vh;
 }
 
-.book {
-  position:relative;
-  width:80vw;
-  height:90vh;
-  perspective:2000px;
+#flipbook{
+width:900px;
+height:600px;
+margin-top:30px;
 }
 
-.page {
-  position:absolute;
-  width:100%;
-  height:100%;
-  transform-origin:left;
-  transition:transform 1s;
-  cursor:pointer;
+.page{
+background:white;
 }
 
-.page img {
-  width:100%;
-  height:100%;
-  object-fit:contain;
-  background:white;
+.page img{
+width:100%;
+height:100%;
+object-fit:contain;
 }
 
-.page.flipped {
-  transform:rotateY(-180deg);
+.botoes{
+position:fixed;
+top:10px;
+right:10px;
+display:flex;
+gap:10px;
 }
+
+button{
+padding:8px 15px;
+border:none;
+border-radius:8px;
+cursor:pointer;
+}
+
+#thumbnails{
+
+position:fixed;
+bottom:0;
+left:0;
+width:100%;
+height:110px;
+background:#111;
+display:flex;
+overflow-x:auto;
+padding:10px;
+gap:10px;
+
+}
+
+.thumb{
+height:90px;
+cursor:pointer;
+border:2px solid transparent;
+}
+
+.thumb:hover{
+border-color:white;
+}
+
 </style>
+
 </head>
 
 <body>
 
-<audio id="bg-music" loop>
-  <source src="musica.mp3" type="audio/mpeg">
-</audio>
+<div class="botoes">
 
-<div class="book" id="book">
-  <div class="page"><img src="images/cavaleiro/Imagem1.png"></div>
-  <div class="page"><img src="images/cavaleiro/Imagem2.png"></div>
-  <div class="page"><img src="images/cavaleiro/Imagem3.png"></div>
-  <div class="page"><img src="images/cavaleiro/Imagem4.png"></div>
-  <div class="page"><img src="images/cavaleiro/Imagem5.png"></div>
-  <div class="page"><img src="images/cavaleiro/Imagem6.png"></div>
-  <div class="page"><img src="images/cavaleiro/Imagem7.png"></div>
-  <div class="page"><img src="images/cavaleiro/Imagem8.png"></div>
-  <div class="page"><img src="images/cavaleiro/Imagem9.png"></div>
-  <div class="page"><img src="images/cavaleiro/Imagem10.png"></div>
-  <div class="page"><img src="images/cavaleiro/Imagem11.png"></div>
-  <div class="page"><img src="images/cavaleiro/Imagem12.png"></div>
-  <div class="page"><img src="images/cavaleiro/Imagem13.png"></div>
-  <div class="page"><img src="images/cavaleiro/Imagem14.png"></div>
-  <div class="page"><img src="images/cavaleiro/Imagem15.png"></div>
-  <div class="page"><img src="images/cavaleiro/Imagem16.png"></div>
-  <div class="page"><img src="images/cavaleiro/Imagem17.png"></div>
+<button onclick="location.href='index.html'">
+📚 Biblioteca
+</button>
+
+<button onclick="fullscreen()">
+⛶ Fullscreen
+</button>
+
 </div>
 
+<audio id="musica" loop>
+<source src="musica-cavaleiro.mp3">
+</audio>
+
+<audio id="somvirar">
+<source src="virar.mp3">
+</audio>
+
+<div id="flipbook"></div>
+
+<div id="thumbnails"></div>
+
 <script>
-const pages = document.querySelectorAll(".page");
-const audio = document.getElementById("bg-music");
 
-let current = 0;
+const totalImagens = 17
+const pasta = "images/cavaleiro/"
 
-document.body.addEventListener("click", () => {
-  audio.play();
-}, { once: true });
+const flipbook = document.getElementById("flipbook")
+const thumbs = document.getElementById("thumbnails")
 
-pages.forEach((page, index) => {
-  page.style.zIndex = pages.length - index;
+// CAPA
+flipbook.innerHTML += `
+<div class="page">
+<h2 style="text-align:center;padding-top:200px">
+O Cavaleiro da Dinamarca
+</h2>
+</div>
+`
 
-  page.addEventListener("click", () => {
-    if (index === current) {
-      page.classList.add("flipped");
-      current++;
-    }
-  });
-});
+// CRIAR PÁGINAS
+for(let i=1;i<=totalImagens;i++){
+
+flipbook.innerHTML += `
+<div class="page">
+<img src="${pasta}Imagem${i}.jpg">
+</div>
+`
+
+thumbs.innerHTML += `
+<img class="thumb"
+src="${pasta}Imagem${i}.jpg"
+onclick="irPagina(${i+1})">
+`
+
+}
+
+// CRÉDITOS
+flipbook.innerHTML += `
+<div class="page">
+
+<h2 style="text-align:center;padding-top:200px">
+Créditos
+</h2>
+
+<p style="text-align:center">
+Ilustrações realizadas pelos alunos do 7º ano
+</p>
+
+</div>
+`
+
+// INICIAR LIVRO
+$("#flipbook").turn({
+
+width:900,
+height:600,
+autoCenter:true,
+display:"double",
+gradients:true,
+elevation:50,
+
+when:{
+turning:function(){
+document.getElementById("somvirar").play()
+}
+}
+
+})
+
+// SOM DE FUNDO
+document.body.addEventListener("click",()=>{
+document.getElementById("musica").play()
+},{once:true})
+
+// FULLSCREEN
+function fullscreen(){
+document.documentElement.requestFullscreen()
+}
+
+// IR PARA PÁGINA
+function irPagina(p){
+$("#flipbook").turn("page",p)
+}
+
+// SETAS DO TECLADO
+document.addEventListener("keydown",function(e){
+
+if(e.key==="ArrowRight"){
+$("#flipbook").turn("next")
+}
+
+if(e.key==="ArrowLeft"){
+$("#flipbook").turn("previous")
+}
+
+})
+
 </script>
 
 </body>
+
 </html>
