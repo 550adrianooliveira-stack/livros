@@ -103,10 +103,36 @@ $("#flipbook").turn({
 });
 
 // 3️⃣ Música de fundo
-document.body.addEventListener("click",()=>{
-  document.getElementById("musica").play();
-},{once:true});
+let musicaTocando = false;
 
+document.addEventListener("click", () => {
+  if(!musicaTocando){
+    const musica = document.getElementById("musica");
+    musica.play().catch(err => {
+      console.log("Música bloqueada até interação do usuário");
+    });
+    musicaTocando = true;
+  }
+});
+
+// Som de virar página
+$("#flipbook").turn({
+  width:900,
+  height:600,
+  autoCenter:true,
+  display:"double",
+  gradients:true,
+  elevation:50,
+  when:{
+    turning:function(){
+      const som = document.getElementById("somvirar");
+      som.play().catch(err => {
+        console.log("Som de virar página bloqueado até interação do usuário");
+      });
+    }
+  }
+});
+  
 // 4️⃣ Fullscreen
 function fullscreen(){
   document.documentElement.requestFullscreen();
