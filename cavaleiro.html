@@ -23,10 +23,10 @@ body{
 /* LIVRO */
 
 #flipbook{
-  width:920px;
-  height:620px;
+  width:90vw;
+  height:85vh;
 }
-
+  
 /* PÁGINAS */
 
 .page{
@@ -149,19 +149,25 @@ flipbook.appendChild(creditos);
 
 /* iniciar flipbook */
 
+function tamanhoLivro(){
+
+ let largura = window.innerWidth * 0.9
+ let altura = window.innerHeight * 0.85
+
+ $("#flipbook").turn("size", largura, altura)
+
+}
+
 $("#flipbook").turn({
- width:920,
- height:620,
+ width:window.innerWidth*0.9,
+ height:window.innerHeight*0.85,
  autoCenter:true,
  display:"double",
  gradients:true,
- elevation:80,
- when:{
-  turning:function(){
-   document.getElementById("somvirar").play().catch(()=>{});
-  }
- }
-});
+ elevation:80
+})
+
+window.addEventListener("resize", tamanhoLivro)
 
 /* música após clique */
 
