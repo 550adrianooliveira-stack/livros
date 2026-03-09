@@ -3,53 +3,63 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Livros Interativos - 7º Ano</title>
+<title>Biblioteca Digital</title>
 
 <style>
-body {
-  margin:0;
-  font-family: sans-serif;
-  background: linear-gradient(135deg, #1e3c72, #2a5298);
-  color:white;
-  display:flex;
-  justify-content:center;
-  align-items:center;
-  height:100vh;
-  text-align:center;
+
+body{
+margin:0;
+height:100vh;
+display:flex;
+justify-content:center;
+align-items:center;
+font-family:serif;
+background:url("https://images.unsplash.com/photo-1521587760476-6c12a4b040da") center/cover;
 }
 
-.container {
-  display:flex;
-  flex-direction:column;
-  gap:20px;
+.estante{
+display:flex;
+gap:80px;
 }
 
-button {
-  padding:15px 30px;
-  font-size:18px;
-  border:none;
-  border-radius:10px;
-  cursor:pointer;
-  transition:0.3s;
+.livro{
+width:150px;
+height:220px;
+background:#8b4513;
+border-radius:5px;
+box-shadow:5px 5px 10px rgba(0,0,0,0.5);
+display:flex;
+align-items:center;
+justify-content:center;
+color:white;
+font-weight:bold;
+cursor:pointer;
+transition:0.3s;
+text-align:center;
+padding:10px;
 }
 
-button:hover {
-  transform:scale(1.05);
+.livro:hover{
+transform:scale(1.1);
 }
+
 </style>
 </head>
 
 <body>
 
-<div class="container">
-  <h1>Livros Ilustrados - 7º Ano</h1>
-  <button onclick="location.href='cavaleiro.html'">
-    📘 O Cavaleiro da Dinamarca
-  </button>
+<div class="estante">
 
-  <button onclick="location.href='gaivota.html'">
-    🐱 O Gato e a Gaivota
-  </button>
+<div class="livro"
+onclick="location.href='cavaleiro.html'">
+O Cavaleiro<br>da Dinamarca
+</div>
+
+<div class="livro"
+onclick="location.href='gaivota.html'">
+O Gato<br>e a Gaivota
+</div>
+
 </div>
 
 </body>
