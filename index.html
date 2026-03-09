@@ -2,45 +2,37 @@
 <html lang="pt">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Biblioteca Digital</title>
+<title>Biblioteca</title>
 
 <style>
 
 body{
 margin:0;
 height:100vh;
-display:flex;
-justify-content:center;
-align-items:center;
+background:url("https://images.unsplash.com/photo-1521587760476-6c12a4b040da") center/cover no-repeat;
 font-family:serif;
-background:url("https://images.unsplash.com/photo-1521587760476-6c12a4b040da") center/cover;
 }
+
+/* container para posicionamento */
 
 .estante{
-display:flex;
-gap:80px;
+position:relative;
+width:100%;
+height:100vh;
 }
 
+/* lombadas */
+
 .livro{
-width:150px;
-height:220px;
-background:#8b4513;
-border-radius:5px;
-box-shadow:5px 5px 10px rgba(0,0,0,0.5);
-display:flex;
-align-items:center;
-justify-content:center;
-color:white;
-font-weight:bold;
+position:absolute;
+height:260px;
 cursor:pointer;
-transition:0.3s;
-text-align:center;
-padding:10px;
+transition:transform 0.3s, filter 0.3s;
 }
 
 .livro:hover{
-transform:scale(1.1);
+transform:translateY(-8px);
+filter:brightness(1.1);
 }
 
 </style>
@@ -50,15 +42,15 @@ transform:scale(1.1);
 
 <div class="estante">
 
-<div class="livro"
-onclick="location.href='cavaleiro.html'">
-O Cavaleiro<br>da Dinamarca
-</div>
+<a href="cavaleiro.html">
+<img class="livro" src="images/lombadas/cavaleiro.png"
+style="left:42%; top:47%;">
+</a>
 
-<div class="livro"
-onclick="location.href='gaivota.html'">
-O Gato<br>e a Gaivota
-</div>
+<a href="gaivota.html">
+<img class="livro" src="images/lombadas/gaivota.png"
+style="left:48%; top:47%;">
+</a>
 
 </div>
 
