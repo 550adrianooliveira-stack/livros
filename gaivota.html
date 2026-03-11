@@ -1,0 +1,211 @@
+<!DOCTYPE html>
+<html lang="pt">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>O Cavaleiro da Dinamarca</title>
+
+<script src="js/jquery-2.2.4.min.js"></script>
+<script src="js/turn.min.js"></script>
+<script src="js/turn.html4.min.js"></script>
+  
+<style>
+
+body{
+  margin:0;
+  background:linear-gradient(#2b2b2b,#1a1a1a);
+  display:flex;
+  justify-content:center;
+  align-items:center;
+  height:100vh;
+  font-family:serif;
+}
+
+/* LIVRO */
+
+#flipbook{
+  width:90vw;
+  height:85vh;
+}
+  
+/* PÁGINAS */
+
+.page{
+  background:white;
+  box-shadow:0 0 20px rgba(0,0,0,0.5);
+}
+
+.page img{
+  width:100%;
+  height:100%;
+  object-fit:contain;
+  pointer-events:none;
+}
+  
+/* CAPA */
+
+.capa{
+  background:linear-gradient(#5a0f0f,#2e0505);
+  color:white;
+  font-size:28px;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  text-align:center;
+  padding:40px;
+}
+
+/* CRÉDITOS */
+
+.creditos{
+  display:flex;
+  flex-direction:column;
+  align-items:center;
+  justify-content:center;
+  font-size:22px;
+}
+
+/* BOTÕES */
+
+.barra{
+  position:fixed;
+  top:15px;
+  left:15px;
+  display:flex;
+  gap:10px;
+}
+
+button{
+  padding:8px 14px;
+  border:none;
+  border-radius:6px;
+  background:#ffffff;
+  cursor:pointer;
+  font-weight:bold;
+}
+
+button:hover{
+  background:#e2e2e2;
+}
+
+</style>
+</head>
+
+<body>
+
+<div class="barra">
+<button onclick="location.href='index.html'">📚 Biblioteca</button>
+<button onclick="fullscreen()">⛶ Fullscreen</button>
+</div>
+
+<audio id="musica" loop>
+<source src="musica-cavaleiro.mp3" type="audio/mpeg">
+</audio>
+
+<audio id="somvirar">
+<source src="virar.mp3" type="audio/mpeg">
+</audio>
+
+<div id="flipbook"></div>
+
+<script>
+
+const total = 10;
+const pasta = "images/gaivota/";
+const flipbook = document.getElementById("flipbook");
+
+/* CAPA (Imagem1) */
+
+let capa = document.createElement("div");
+capa.className = "page";
+
+let imgCapa = document.createElement("img");
+imgCapa.src = pasta + "Imagem1.png";
+
+capa.appendChild(imgCapa);
+flipbook.appendChild(capa);
+
+/* verso da capa (em branco) */
+
+let branco = document.createElement("div");
+branco.className = "page";
+flipbook.appendChild(branco);
+
+/* páginas do conteúdo */
+
+for(let i=2;i<=total;i++){
+
+ let p = document.createElement("div");
+ p.className="page";
+
+ let img = document.createElement("img");
+ img.src = pasta + "Imagem" + i + ".png";
+
+ p.appendChild(img);
+ flipbook.appendChild(p);
+
+}
+
+/* créditos */
+
+let creditos = document.createElement("div");
+creditos.className="page creditos";
+creditos.innerHTML="Créditos<br>Alunos do 7º ano";
+flipbook.appendChild(creditos);
+/* iniciar flipbook */
+
+function tamanhoLivro(){
+
+ let largura = window.innerWidth * 0.9
+ let altura = window.innerHeight * 0.85
+
+ $("#flipbook").turn("size", largura, altura)
+
+}
+
+$("#flipbook").turn({
+ width:window.innerWidth*0.9,
+ height:window.innerHeight*0.85,
+ autoCenter:true,
+ display:"double",
+ gradients:true,
+ elevation:80,
+ acceleration:true
+})
+  
+window.addEventListener("resize", tamanhoLivro)
+
+/* música após clique */
+
+let tocou=false;
+
+document.addEventListener("click",function(){
+
+ if(!tocou){
+
+  document.getElementById("musica").play().catch(()=>{});
+  tocou=true;
+
+ }
+
+},{once:true});
+
+/* fullscreen */
+
+function fullscreen(){
+ document.documentElement.requestFullscreen();
+}
+
+/* teclas */
+
+document.addEventListener("keydown",function(e){
+
+ if(e.key==="ArrowRight") $("#flipbook").turn("next");
+ if(e.key==="ArrowLeft") $("#flipbook").turn("previous");
+
+});
+
+</script>
+
+</body>
+</html>
