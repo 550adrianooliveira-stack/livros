@@ -112,22 +112,26 @@ const total = 17;
 const pasta = "images/cavaleiro/";
 const flipbook = document.getElementById("flipbook");
 
-/* CAPA */
+/* CAPA (Imagem1) */
 
 let capa = document.createElement("div");
-capa.className = "page capa";
-capa.innerHTML = "O Cavaleiro da Dinamarca";
+capa.className = "page";
+
+let imgCapa = document.createElement("img");
+imgCapa.src = pasta + "Imagem1.png";
+
+capa.appendChild(imgCapa);
 flipbook.appendChild(capa);
 
-/* página branca para paridade */
+/* verso da capa (em branco) */
 
 let branco = document.createElement("div");
 branco.className = "page";
 flipbook.appendChild(branco);
 
-/* páginas das imagens */
+/* páginas do conteúdo */
 
-for(let i=1;i<=total;i++){
+for(let i=2;i<=total;i++){
 
  let p = document.createElement("div");
  p.className="page";
@@ -146,7 +150,6 @@ let creditos = document.createElement("div");
 creditos.className="page creditos";
 creditos.innerHTML="Créditos<br>Ilustrações do 7º ano";
 flipbook.appendChild(creditos);
-
 /* iniciar flipbook */
 
 function tamanhoLivro(){
